@@ -1,56 +1,57 @@
 {
-  "name": "roots/bedrock",
+  "name": "louisbl/bedrock",
   "type": "project",
   "license": "MIT",
-  "description": "A modern WordPress stack",
-  "homepage": "https://roots.io/bedrock/",
-  "authors": [
-    {
-      "name": "Scott Walkinshaw",
-      "email": "scott.walkinshaw@gmail.com",
-      "homepage": "https://github.com/swalkinshaw"
-    },
-    {
-      "name": "Ben Word",
-      "email": "ben@benword.com",
-      "homepage": "https://github.com/retlehs"
-    }
-  ],
+  "description": "A modern WordPress stack - Fork of bedrock",
+  "homepage": "https://github.com/louisbl/bedrock",
+  "authors": [{
+    "name": "Louis Beltramo",
+    "email": "louis@beltramo.me",
+    "homepage": "http://louisbl.fr"
+  }],
   "keywords": [
     "bedrock", "roots", "wordpress", "stack", "composer", "vagrant", "wp"
   ],
   "support": {
-    "issues": "https://github.com/roots/bedrock/issues",
-    "forum": "https://discourse.roots.io/category/bedrock"
+    "issues": "https://github.com/louisbl/bedrock/issues"
   },
+  "minimum-stability": "dev",
   "config": {
     "preferred-install": "dist",
     "generate-salts": true
   },
   "autoload": {
-    "psr-0": {"Roots\\Bedrock\\Installer": "scripts"}
+    "psr-0": {
+      "Roots\\Bedrock\\Installer": "scripts"
+    }
   },
   "scripts": {
     "post-root-package-install": ["Roots\\Bedrock\\Installer::addSalts"]
   },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "http://wpackagist.org"
-    }
-  ],
+  "repositories": [{
+    "type": "composer",
+    "url": "http://wpackagist.org"
+  }],
+  "require-dev": {
+    "wpackagist-plugin/theme-check": "*",
+    "wpackagist-plugin/debug-bar": "*",
+    "wpackagist-plugin/debug-bar-timber": "*"
+  },
   "require": {
     "php": ">=5.4",
     "composer/installers": "~1.0.12",
     "vlucas/phpdotenv": "~1.0.9",
-    "johnpbloch/wordpress": "4.2"
+    "johnpbloch/wordpress": "4.2",
+    "wpackagist-plugin/w3-total-cache": "~0.9.4",
+    "jarednova/timber": "~0.21.0",
+    "roots/wp-stage-switcher": "1.0.3"
   },
   "extra": {
     "installer-paths": {
-      "web/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
-      "web/app/plugins/{$name}/": ["type:wordpress-plugin"],
-      "web/app/themes/{$name}/": ["type:wordpress-theme"]
+      "htdocs/app/mu-plugins/{$name}/": ["type:wordpress-muplugin"],
+      "htdocs/app/plugins/{$name}/": ["type:wordpress-plugin"],
+      "htdocs/app/themes/{$name}/": ["type:wordpress-theme"]
     },
-    "wordpress-install-dir": "web/wp"
+    "wordpress-install-dir": "htdocs/wp"
   }
 }

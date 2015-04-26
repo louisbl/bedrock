@@ -1,0 +1,46 @@
+box: wercker/php
+build:
+    steps:
+        - script:
+            name: install dependencies
+            code: composer install --no-interaction --no-dev
+        - script:
+            name: echo php information
+            code: |
+                echo "php version $(php --version) running"
+                echo "from location $(which php)"
+deploy:
+    steps:
+        - add-to-known_hosts:
+            hostname: $SIMPLE_HOSTING_GIT
+            fingerprint: $SIMPLE_HOSTING_FINGERPRINT
+        - script:
+            name: Make .SSH directory
+            code: mkdir -p "$HOME/.ssh"
+        - create-file:
+            name: Write SSH key
+            filename: $HOME/.ssh/id_rsa
+            overwrite: true
+            hide-from-log: true
+            content: $SIMPLE_HOSTING_PRIVATE
+        - script:
+            name: Set permissions for SSH key
+            code: |-
+                chmod 0400 $HOME/.ssh/id_rsa
+        - script:
+            name: Configure git
+            code: |-
+              git config --global user.email "pleasemailus@wercker.com"
+              git config --global user.name "wercker"
+        - script:
+            name: push code to simple hosting repo
+            code: |-
+                echo $WERCKER_GIT_BRANCH
+                git checkout $WERCKER_GIT_BRANCH
+                git push ssh+git://$SIMPLE_HOSTING_USER@$SIMPLE_HOSTING_GIT/$SIMPLE_HOSTING_VHOST.git $WERCKER_GIT_BRANCH:master
+        - script:
+              name: deploy code on simple hosting
+              code: ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $SIMPLE_HOSTING_USER@$SIMPLE_HOSTING_GIT deploy $SIMPLE_HOSTING_VHOST.git
+        - script:
+              name: trigger composer install
+              code: curl --user $AUTH_USER:$AUTH_PASSWORD $SIMPLE_HOSTING_VHOST/$DEPLOY_SCRIPT

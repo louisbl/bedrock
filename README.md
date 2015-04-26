@@ -13,21 +13,17 @@ Much of the philosophy behind Bedrock is inspired by the [Twelve-Factor App](htt
 * Environment variables with [Dotenv](https://github.com/vlucas/phpdotenv)
 * Autoloader for mu-plugins (use regular plugins as mu-plugins)
 
-Use [bedrock-ansible](https://github.com/roots/bedrock-ansible) for additional features:
-
-* Easy development environments with [Vagrant](http://www.vagrantup.com/)
-* Easy server provisioning with [Ansible](http://www.ansible.com/) (Ubuntu 14.04, PHP 5.6 or HHVM, MariaDB)
-* One-command deploys
-
 ## Requirements
 
 * PHP >= 5.4
+* Docker / Compose
+* Wercker
 
 ## Installation
 
 1. Clone the git repo - `git clone https://github.com/roots/bedrock.git`
 2. Run `composer install`
-3. Copy `.env.example` to `.env` and update environment variables:
+3. Copy `.env.example` to `.env.docker` and update environment variables:
   * `DB_NAME` - Database name
   * `DB_USER` - Database user
   * `DB_PASSWORD` - Database password
@@ -41,10 +37,7 @@ Use [bedrock-ansible](https://github.com/roots/bedrock-ansible) for additional f
 
 ## Deploys
 
-There are two methods to deploy Bedrock sites out of the box:
-
-* [bedrock-ansible](https://github.com/roots/bedrock-ansible)
-* [bedrock-capistrano](https://github.com/roots/bedrock-capistrano)
+Use Wercker.
 
 Any other deployment method can be used as well with one requirement:
 

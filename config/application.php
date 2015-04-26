@@ -1,38 +1,71 @@
 <?php
 $root_dir = dirname(__DIR__);
-$webroot_dir = $root_dir . '/web';
+$webroot_dir = $root_dir . '/htdocs';
+$wp_dir = $webroot_dir . '/wp/';
+define('CONTENT_DIR', '/app');
 
 /**
  * Use Dotenv to set required environment variables and load .env file in root
  */
+Dotenv::required(array(
+'ACF_LITE',
+'AUTH_KEY',
+'AUTH_SALT',
+'DB_NAME',
+'DB_PASSWORD',
+'DB_USER',
+'DISPLAY_ERRORS',
+'LOGGED_IN_KEY',
+'LOGGED_IN_SALT',
+'NONCE_KEY',
+'NONCE_SALT',
+'SAVEQUERIES',
+'SCRIPT_DEBUG',
+'SECURE_AUTH_KEY',
+'SECURE_AUTH_SALT',
+'WP_CACHE',
+'WP_DEBUG',
+'WP_DEBUG_DISPLAY',
+'WP_DEBUG_LOG',
+'WP_HOME',
+'WP_SITEURL'
+));
+
 if (file_exists($root_dir . '/.env')) {
   Dotenv::load($root_dir);
 }
 
-Dotenv::required(['DB_NAME', 'DB_USER', 'DB_PASSWORD', 'WP_HOME', 'WP_SITEURL']);
-
 /**
- * Set up our global environment constant and load its config first
+ * Set up our global environment constant
  * Default: development
  */
 define('WP_ENV', getenv('WP_ENV') ?: 'development');
 
-$env_config = __DIR__ . '/environments/' . WP_ENV . '.php';
+$envs = array(
+  'development' => getenv('URL_DEV'),
+  'staging' => getenv('URL_STAGING'),
+  'production' => getenv('URL_PROD'),
+);
+define('ENVIRONMENTS', serialize($envs));
 
-if (file_exists($env_config)) {
-  require_once $env_config;
-}
+ini_set('display_errors', getenv('DISPLAY_ERRORS'));
 
-/**
- * URLs
- */
+define('WP_DEBUG', getenv('WP_DEBUG'));
+define('WP_DEBUG_DISPLAY', getenv('WP_DEBUG_DISPLAY'));
+define('WP_DEBUG_LOG', getenv('WP_DEBUG_LOG'));
+define('SCRIPT_DEBUG', getenv('SCRIPT_DEBUG'));
+define('SAVEQUERIES', getenv('SAVEQUERIES'));
+
+define('ACF_LITE', getenv('ACF_LITE'));
+
+define('WP_CACHE', getenv('WP_CACHE'));
+
 define('WP_HOME', getenv('WP_HOME'));
 define('WP_SITEURL', getenv('WP_SITEURL'));
 
 /**
  * Custom Content Directory
  */
-define('CONTENT_DIR', '/app');
 define('WP_CONTENT_DIR', $webroot_dir . CONTENT_DIR);
 define('WP_CONTENT_URL', WP_HOME . CONTENT_DIR);
 
@@ -46,6 +79,14 @@ define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
 $table_prefix = getenv('DB_PREFIX') ?: 'wp_';
+
+/**
+ * WordPress Localized Language
+ * Default: English
+ *
+ * A corresponding MO file for the chosen language must be installed to app/languages
+ */
+define('WPLANG', getenv('WP_LANG') ?: 'en_US');
 
 /**
  * Authentication Unique Keys and Salts
@@ -70,5 +111,5 @@ define('DISALLOW_FILE_EDIT', true);
  * Bootstrap WordPress
  */
 if (!defined('ABSPATH')) {
-  define('ABSPATH', $webroot_dir . '/wp/');
+  define('ABSPATH', $wp_dir);
 }

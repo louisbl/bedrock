@@ -1,18 +1,21 @@
 # Application
-web/app/plugins/*
-!web/app/plugins/.gitkeep
-web/app/mu-plugins/*
-!web/app/mu-plugins/.gitkeep
-web/app/upgrade
-web/app/uploads/*
-!web/app/uploads/.gitkeep
-!web/app/mu-plugins/disallow-indexing.php
-!web/app/mu-plugins/register-theme-directory.php
-!web/app/mu-plugins/bedrock-autoloader.php
+htdocs/app/plugins/*
+!htdocs/app/plugins/.gitkeep
+htdocs/app/mu-plugins/*
+!htdocs/app/mu-plugins/.gitkeep
+htdocs/app/upgrade
+htdocs/app/uploads/*
+!htdocs/app/uploads/.gitkeep
+!htdocs/app/mu-plugins/disallow-indexing.php
+!htdocs/app/mu-plugins/register-theme-directory.php
+!htdocs/app/mu-plugins/bedrock-autoloader.php
+# ACF
+!htdocs/app/plugins/advanced-custom-fields-pro
 
 # WordPress
-web/wp
-web/.htaccess
+htdocs/wp
+htdocs/.htaccess
+htdocs/app/debug.log
 
 # WP-CLI
 db-sync
@@ -26,10 +29,19 @@ sql-dump-*.sql
 # Vendor (e.g. Composer)
 vendor/*
 !vendor/.gitkeep
+deploy
 
 # Node Package Manager
 node_modules
 
+# Composer package manager
+.composer
+
 # Vagrant
-bin
 .vagrant
+
+# SublimeText
+*.sublime-workspace
+
+# DB docker volume
+db

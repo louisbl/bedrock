@@ -1,0 +1,35 @@
+data:
+  image: debian:jessie
+  user: www-data
+  volumes:
+    - .:/var/www/
+
+web:
+  image: louisbl/php:5.4-apache
+  ports:
+    - "8012:80"
+  links:
+    - db
+  volumes_from:
+    - data
+  env_files:
+    - .env.docker
+
+db:
+  image: mysql:5.5
+  volumes:
+    - db:/var/lib/mysql
+  env_files:
+    - .env.docker
+
+composer:
+  image: louisbl/composer
+  volumes_from:
+    - data
+
+adminer:
+  image: louisbl/adminer:4.2.1
+  ports:
+    - "8011:80"
+  links:
+    - db
